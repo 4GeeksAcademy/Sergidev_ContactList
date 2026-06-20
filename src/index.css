@@ -1,0 +1,28 @@
+.contact-card-container {
+    width: 100%;
+    max-width: 950px; 
+    margin: 0 auto;
+}
+
+.action-buttons-group {
+    z-index: 10;
+}
+
+.action-btn {
+    cursor: pointer;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.contact-details-pane {
+    padding-right: 3rem;
+}
+
+.contact-icon-span {
+    min-width: 24px;
+    display: inline-block;
+}
