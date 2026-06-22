@@ -12,15 +12,10 @@ export const Home = () => {
     const fetchContacts = () => {
         fetch(`${baseUrl}/contacts`)
             .then((response) => {
-                if (response.status === 404) {
-                    return fetch(baseUrl, { method: "POST" })
-                        .then(() => []);
-                }
-                if (!response.ok) throw new Error("Error fetching contacts");
                 return response.json();
             })
             .then((data) => {
-                const contactsArray = data.contacts || data;
+                const contactsArray = data.contacts;
                 dispatch({ type: "set_contacts", payload: contactsArray });
             })
             .catch((error) => console.error("Error:", error));
@@ -41,8 +36,8 @@ export const Home = () => {
         .catch((error) => alert(error.message));
     };
 
-    const handleEdit = (idToEdit) => {
-        navigate(`/add-contact?edit=${idToEdit}`);
+    const handleEdit = (contactObject) => {
+        navigate("/add-contact", { state: { contact: contactObject } });
     };
 
     return (
@@ -64,7 +59,7 @@ export const Home = () => {
                         <ContactCard 
                             contact={contact} 
                             onDelete={handleDelete} 
-                            onEdit={handleEdit} 
+                            onEdit={()=> handleEdit(contact)} 
                         />
                     </div>
                 ))

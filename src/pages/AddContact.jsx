@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export const AddContact = () => {
-    const { store } = useGlobalReducer();
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
+    const location = useLocation();
     
-    const editId = searchParams.get("edit"); 
+    const contactToEdit = location.state?.contact;
 
     const slug = "SergiVG";
     const baseUrl = `https://playground.4geeks.com/contact/agendas/${slug}/contacts`;
@@ -20,18 +18,15 @@ export const AddContact = () => {
     });
 
     useEffect(() => {
-        if (editId && store.contacts) {
-            const contactToEdit = store.contacts.find(c => c.id === parseInt(editId));
-            if (contactToEdit) {
-                setFormData({
-                    name: contactToEdit.name || "",
-                    email: contactToEdit.email || "",
-                    phone: contactToEdit.phone || "",
-                    address: contactToEdit.address || ""
-                });
-            }
+        if (contactToEdit) {
+            setFormData({
+                name: contactToEdit.name || "",
+                email: contactToEdit.email || "",
+                phone: contactToEdit.phone || "",
+                address: contactToEdit.address || ""
+            });
         }
-    }, [editId, store.contacts]);
+    }, [contactToEdit]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,8 +35,9 @@ export const AddContact = () => {
     const handleSave = (e) => {
         e.preventDefault();
 
-        const url = editId ? `${baseUrl}/${editId}` : baseUrl;
-        const method = editId ? "PUT" : "POST";
+        const isEditing = contactToEdit && contactToEdit.id;
+        const url = isEditing ? `${baseUrl}/${contactToEdit.id}` : baseUrl;
+        const method = isEditing ? "PUT" : "POST";
 
         fetch(url, {
             method: method,
@@ -68,7 +64,7 @@ export const AddContact = () => {
     return (
         <div className="container py-5 d-flex flex-column align-items-center">
             <h1 className="display-5 fw-normal mb-4">
-                {editId ? "Update contact details" : "Add a new contact"}
+                {contactToEdit ? "Update contact details" : "Add a new contact"}
             </h1>
             
             <form onSubmit={handleSave} className="w-100" style={{ maxWidth: "600px" }}>
@@ -90,7 +86,7 @@ export const AddContact = () => {
                 </div>
 
                 <button type="submit" className="btn btn-primary w-100 py-2 mb-3 text-capitalize">
-                    {editId ? "update" : "save"}
+                    {contactToEdit ? "update" : "save"}
                 </button>
 
                 <div className="text-start">
