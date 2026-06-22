@@ -9,8 +9,8 @@ export const AddContact = () => {
     
     const editId = searchParams.get("edit"); 
 
-    const user = "SergiVG";
-    const baseUrl = `https://playground.4geeks.com/contact/agendas/${user}/contacts`;
+    const slug = "SergiVG";
+    const baseUrl = `https://playground.4geeks.com/contact/agendas/${slug}/contacts`;
 
     const [formData, setFormData] = useState({
         name: "",

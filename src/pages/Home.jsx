@@ -6,8 +6,8 @@ import ContactCard from "../components/ContactCard.jsx";
 export const Home = () => {
     const { store, dispatch } = useGlobalReducer();
     const navigate = useNavigate();
-    const user = "SergiVG";
-    const baseUrl = `https://playground.4geeks.com/contact/agendas/${user}`;
+    const slug = "SergiVG";
+    const baseUrl = `https://playground.4geeks.com/contact/agendas/${slug}`;
 
     const fetchContacts = () => {
         fetch(`${baseUrl}/contacts`)
@@ -56,7 +56,7 @@ export const Home = () => {
         <div className="d-flex flex-column align-items-center">
             {store.contacts && store.contacts.length === 0 ? (
                 <div className="text-center py-5 border rounded-3 bg-white w-100">
-                    <p className="text-muted m-0">No contacts found in agenda '{user}'. Click the button above to add one.</p>
+                    <p className="text-muted m-0">No contacts found in agenda '{slug}'. Click the button above to add one.</p>
                 </div>
             ) : (
                 store.contacts.map((contact) => (
