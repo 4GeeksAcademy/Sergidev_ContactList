@@ -22,9 +22,8 @@ export const router = createBrowserRouter(
       // Root Route: All navigation will start from here.
       <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
 
-        {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
         <Route path= "/" element={<Home />} />
-        <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
+        <Route path="/single/:theId" element={ <Single />} />
         <Route path="/demo" element={<Demo />} />
         <Route path="/add-contact" element={<AddContact />} />
       </Route>
