@@ -12,12 +12,22 @@ export const Home = () => {
     const fetchContacts = () => {
         fetch(`${baseUrl}/contacts`)
             .then((response) => {
+                if (response.status === 404) {
+                    return fetch(baseUrl, { method: "POST" })
+                        .then((createResponse) => {
+                            return [];
+                        });
+                }
                 return response.json();
             })
             .then((data) => {
-                const contactsArray = data.contacts;
+                const contactsArray = data.contacts || (Array.isArray(data) ? data : []);
                 dispatch({ type: "set_contacts", payload: contactsArray });
             })
+            .catch((error) => {
+                console.error("Error:", error);
+                dispatch({ type: "set_contacts", payload: [] });
+            });
     };
 
     useEffect(() => {
