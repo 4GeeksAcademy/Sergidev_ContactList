@@ -52,13 +52,11 @@ export const AddContact = () => {
             }
         })
         .then((response) => {
-            if (!response.ok) throw new Error("Failed to process contact action.");
             return response.json();
         })
         .then(() => {
             navigate("/");
         })
-        .catch((error) => alert(error.message));
     };
 
     return (
